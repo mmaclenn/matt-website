@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Layout from "../components/layout";
-import SEO from "../components/seo";
 
 import { graphql } from "gatsby";
 import Img from "gatsby-image";
@@ -41,6 +40,13 @@ const HomeHeading = styled.svg`
     }
   }
 
+  transform: scale(
+    ${props =>
+      props.scrollPosition / 10 < 1 ? 1 : props.scrollPosition / props.scale}
+  );
+  transform-origin: 42% 56%;
+  display: ${props => (props.scrollPosition > 1150 ? "none" : "block")};
+
   #editText {
     @media screen and (max-width: 480px) {
       transform: translateY(-10%);
@@ -72,6 +78,13 @@ const ColorChanger = styled.div`
   top: 0;
   left: 0;
   z-index: 3;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    ${props => 3000 / props.scrollPosition / 20}
+  );
+  display: ${props => (props.scrollPosition > 1150 ? "none" : "block")};
 `;
 
 const ImageStamp = styled.div`
@@ -137,11 +150,10 @@ const SocialLink = styled.a`
 
 const IndexPage = props => {
   const [scrollPosition, setScrollPosition] = useState(0);
-
-  let scale;
+  const [scale, setScale] = useState(0);
 
   useEffect(() => {
-    scale = document && document.width > 500 ? 20 : 5;
+    setScale(document && document.width > 500 ? 20 : 5);
     window.addEventListener("scroll", handleScroll, { passive: true });
   });
 
@@ -150,21 +162,10 @@ const IndexPage = props => {
     setScrollPosition(position);
   };
 
-  const styles = {
-    transform: `scale(${scrollPosition / 10 < 1 ? 1 : scrollPosition / scale})`,
-    transformOrigin: "42% 56%",
-    display: scrollPosition > 1150 ? "none" : "block",
-  };
-
-  const backgroundStyles = {
-    backgroundColor: `rgba(255, 255, 255, ${3000 / scrollPosition / 20})`,
-    display: scrollPosition > 1150 ? "none" : "block",
-  };
-
   return (
     <Layout>
       <HomeSubHomeSectionHeading>
-        <ColorChanger style={backgroundStyles}></ColorChanger>
+        <ColorChanger scrollPosition={scrollPosition}></ColorChanger>
         <MeSection>
           <div className="container">
             <MePhoto>
@@ -203,7 +204,11 @@ const IndexPage = props => {
           </div>
         </MeSection>
       </HomeSubHomeSectionHeading>
-      <HomeHeading preserveAspectRatio="xMinYMin meet" style={styles}>
+      <HomeHeading
+        preserveAspectRatio="xMinYMin meet"
+        scale={scale}
+        scrollPosition={scrollPosition}
+      >
         <defs>
           <mask id="mask" x="0" y="0" width="100%" height="100%">
             <rect x="0" y="0" width="100%" height="100%" fill="#fff"></rect>
