@@ -48,12 +48,12 @@ const HomeHeading = styled.svg`
   display: ${props => (props.scrollPosition > 1150 ? "none" : "block")};
 
   #editText {
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 768px) {
       transform: translateY(-10%);
     }
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 768px) {
     transform-origin: 57% 49% !important;
   }
 `;
@@ -113,6 +113,11 @@ const ImageStamp = styled.div`
     bottom: 5px;
     z-index: -1;
   }
+
+  @media screen and (max-width: 768px) {
+    width: 200px;
+    margin-bottom: 30px;
+  }
 `;
 
 const MeSection = styled.section`
@@ -133,6 +138,7 @@ const MePhoto = styled.div`
 const MeBio = styled.div`
   flex: 1 0 66.666%;
   color: #ffffff;
+  padding: 0 30px;
 `;
 
 const MeSocials = styled.div`

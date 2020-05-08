@@ -25,6 +25,10 @@ body {
   background: #e1341e;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 h1 {
   font-family: AvantGardeBold;
   font-size: $mod_1 * $mod_1 * $mod_1 * $mod_1 * 1rem;
@@ -77,11 +81,20 @@ svg {
   );
 }
 
+hr {
+  background-color: #fff;
+  border: 1px #fff solid;
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 }
 
 .align-center {
@@ -91,4 +104,17 @@ svg {
 
 .d-flex {
   display: flex;
+}
+
+.svg-inline--fa {
+  @media screen and (max-width: 768px) {
+    font-size: $mod_1 * $mod_1 * $mod_1 * $mod_1 * 1rem !important;
+    @include fluid-type(
+      $min_width,
+      $max_width,
+      $mod_1 * $mod_1 * $mod_1 * $min_font,
+      $mod_2 * $mod_2 * $mod_2 * $min_font
+    );
+    padding-top: 15px;
+  }
 }
