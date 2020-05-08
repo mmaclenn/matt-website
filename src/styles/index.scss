@@ -1,0 +1,94 @@
+@import "_mixins";
+@import "_variables";
+
+@font-face {
+  font-family: AvantGardeBold;
+  src: url("ITCAvantGardeStdBold.woff");
+}
+
+@font-face {
+  font-family: AvantGardeDemi;
+  src: url("ITCAvantGardeStdDemi.woff");
+}
+
+@font-face {
+  font-family: AvantGarde;
+  src: url("ITCAvantGardeStdMd.woff");
+}
+
+html {
+  @include fluid-type($min_width, $max_width, $min_font, $max_font);
+}
+
+body {
+  min-height: 2000px;
+  background: #e1341e;
+}
+
+h1 {
+  font-family: AvantGardeBold;
+  font-size: $mod_1 * $mod_1 * $mod_1 * $mod_1 * 1rem;
+  @include fluid-type(
+    $min_width,
+    $max_width,
+    $mod_1 * $mod_1 * $mod_1 * $min_font,
+    $mod_2 * $mod_2 * $mod_2 * $min_font
+  );
+}
+h2 {
+  font-family: AvantGardeDemi;
+  font-size: $mod_1 * $mod_1 * $mod_1 * 1rem;
+  @include fluid-type(
+    $min_width,
+    $max_width,
+    $mod_1 * $mod_1 * $mod_1 * $min_font,
+    $mod_2 * $mod_2 * $mod_2 * $min_font
+  );
+}
+h3 {
+  font-family: AvantGardeDemi;
+  font-size: $mod_1 * $mod_1 * 1rem;
+  @include fluid-type(
+    $min_width,
+    $max_width,
+    $mod_1 * $mod_1 * $min_font,
+    $mod_2 * $mod_2 * $min_font
+  );
+  margin: 0.5em 0;
+}
+
+h4 {
+  font-family: AvantGardeDemi;
+  margin: 0.5em 0;
+}
+
+p {
+  font-family: AvantGarde;
+}
+
+svg {
+  font-family: AvantGardeBold;
+  font-size: $mod_1 * $mod_1 * $mod_1 * $mod_1 * 1rem;
+  @include fluid-type(
+    $min_width,
+    $max_width,
+    $mod_1 * $mod_1 * $mod_1 * $min_font,
+    $mod_2 * $mod_2 * $mod_2 * $min_font
+  );
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.align-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.d-flex {
+  display: flex;
+}
