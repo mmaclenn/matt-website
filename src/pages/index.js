@@ -22,6 +22,18 @@ const HomeHeading = styled.svg`
   left: 0;
   backface-visibility: hidden;
   perspective: 1000;
+  transform: scale(
+      ${props =>
+        props.scrollPosition / props.scale < 1
+          ? 1
+          : props.scrollPosition / props.scale}
+    )
+    translateZ(0);
+  transform-origin: 42% 56%;
+
+  @media screen and (max-width: 480px) {
+    transform-origin: 43% 38% !important;
+  }
 
   rect {
     -webkit-mask: url(#mask);
@@ -35,26 +47,21 @@ const HomeHeading = styled.svg`
         fill: white;
       }
       text {
+        transform: translateY(10%);
         font-size: 8vw;
+
+        @media screen and (max-width: 480px) {
+          transform: translateY(0);
+        }
+
+        &:last-child {
+          @media screen and (max-width: 480px) {
+            transform: translateY(0);
+          }
+          transform: translateY(20%);
+        }
       }
     }
-  }
-
-  transform: scale(
-    ${props =>
-      props.scrollPosition / 10 < 1 ? 1 : props.scrollPosition / props.scale}
-  );
-  transform-origin: 42% 56%;
-  display: ${props => (props.scrollPosition > 1150 ? "none" : "block")};
-
-  #editText {
-    @media screen and (max-width: 768px) {
-      transform: translateY(-10%);
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    transform-origin: 57% 49% !important;
   }
 `;
 const HomeSubHomeSectionHeading = styled.section`
@@ -84,7 +91,6 @@ const ColorChanger = styled.div`
     255,
     ${props => 3000 / props.scrollPosition / 20}
   );
-  display: ${props => (props.scrollPosition > 1150 ? "none" : "block")};
 `;
 
 const ImageStamp = styled.div`
@@ -159,12 +165,12 @@ const IndexPage = props => {
   const [scale, setScale] = useState(0);
 
   useEffect(() => {
-    setScale(document && document.width > 500 ? 20 : 5);
     window.addEventListener("scroll", handleScroll, { passive: true });
   });
 
   const handleScroll = () => {
     const position = window.scrollY;
+    setScale(document && document.width > 500 ? 20 : 5);
     setScrollPosition(position);
   };
 
@@ -218,10 +224,10 @@ const IndexPage = props => {
         <defs>
           <mask id="mask" x="0" y="0" width="100%" height="100%">
             <rect x="0" y="0" width="100%" height="100%" fill="#fff"></rect>
-            <text x="50%" y="50%" textAnchor="middle">
+            <text x="50%" y="40%" textAnchor="middle">
               Matt Maclennan
             </text>
-            <text id="editText" x="50%" y="65%" textAnchor="middle">
+            <text id="editText" x="50%" y="45%" textAnchor="middle">
               Web Developer
             </text>
           </mask>
