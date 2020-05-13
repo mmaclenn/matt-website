@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import styled from "styled-components";
 
@@ -9,6 +9,7 @@ import Img from "gatsby-image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 
 library.add(faGithub, faLinkedin);
 
@@ -22,14 +23,12 @@ const HomeHeading = styled.svg`
   left: 0;
   backface-visibility: hidden;
   perspective: 1000;
-  transform: scale(
-      ${props =>
-        props.scrollPosition / props.scale < 1
-          ? 1
-          : props.scrollPosition / props.scale}
-    )
-    translateZ(0);
   transform-origin: 42% 56%;
+  z-index: 2;
+
+  @media screen and (max-width: 1024px) {
+    transform-origin: 42% 53% !important;
+  }
 
   @media screen and (max-width: 480px) {
     transform-origin: 43% 38% !important;
@@ -55,6 +54,9 @@ const HomeHeading = styled.svg`
         }
 
         &:last-child {
+          @media screen and (max-width: 1024px) {
+            transform: translateY(12%);
+          }
           @media screen and (max-width: 480px) {
             transform: translateY(0);
           }
@@ -66,31 +68,22 @@ const HomeHeading = styled.svg`
 `;
 const HomeSubHomeSectionHeading = styled.section`
   width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: #1ecbe1;
-  position: fixed !important;
+  min-height: 100vh;
+  background-color: #1ecbe1;
   display: flex;
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 `;
 
 const ColorChanger = styled.div`
-  position: fixed;
   width: 100vw;
-  height: 100vh;
-  background: rgba(255, 255, 255, 1);
+  height: 1300px;
   top: 0;
   left: 0;
-  z-index: 3;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    ${props => 3000 / props.scrollPosition / 20}
-  );
+  background: linear-gradient(to bottom, #feffff 88%, #1ecbe1 100%);
 `;
 
 const ImageStamp = styled.div`
@@ -121,17 +114,18 @@ const ImageStamp = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    width: 200px;
+    width: 160px;
     margin-bottom: 30px;
   }
 `;
 
 const MeSection = styled.section`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
+  padding: 100px 0 50px 0;
 `;
 
 const MePhoto = styled.div`
@@ -161,23 +155,39 @@ const SocialLink = styled.a`
 `;
 
 const IndexPage = props => {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollStyling, setScrollStyling] = useState(0);
   const [scale, setScale] = useState(0);
+  const [opacityStyling, setOpactiyStyling] = useState(0);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-  });
+  useScrollPosition(
+    ({ prevPos, currPos }) => {
+      setScale(document && document.width > 500 ? 20 : 5);
 
-  const handleScroll = () => {
-    const position = window.scrollY;
-    setScale(document && document.width > 500 ? 20 : 5);
-    setScrollPosition(position);
-  };
+      const shouldBeStyle = {
+        transform: `scale(${
+          Math.abs(currPos.y) < 9 ? 1 : Math.abs(currPos.y) / scale
+        }) translateZ(0)`,
+        pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
+      };
+
+      const opacityStyle = {
+        opacity: 1000 / Math.abs(currPos.y) / 20,
+      };
+
+      if (JSON.stringify(shouldBeStyle) === JSON.stringify(scrollStyling))
+        return;
+
+      setOpactiyStyling(opacityStyle);
+
+      setScrollStyling(shouldBeStyle);
+    },
+    [scrollStyling, opacityStyling]
+  );
 
   return (
     <Layout>
       <HomeSubHomeSectionHeading>
-        <ColorChanger scrollPosition={scrollPosition}></ColorChanger>
+        <ColorChanger style={{ ...opacityStyling }}></ColorChanger>
         <MeSection>
           <div className="container">
             <MePhoto>
@@ -218,8 +228,7 @@ const IndexPage = props => {
       </HomeSubHomeSectionHeading>
       <HomeHeading
         preserveAspectRatio="xMinYMin meet"
-        scale={scale}
-        scrollPosition={scrollPosition}
+        style={{ ...scrollStyling }}
       >
         <defs>
           <mask id="mask" x="0" y="0" width="100%" height="100%">
