@@ -25,7 +25,8 @@ const HomeHeading = styled.svg`
   perspective: 1000;
   transform-origin: 42% 56%;
   z-index: 2;
-
+  display: inline-table;
+  will-change: transform;
   @media screen and (max-width: 1024px) {
     transform-origin: 42% 53% !important;
   }
@@ -166,8 +167,8 @@ const IndexPage = props => {
       const shouldBeStyle = {
         transform: `scale(${
           Math.abs(currPos.y) < 9 ? 1 : Math.abs(currPos.y) / scale
-        }) translateZ(0)`,
-        pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
+        }) translate3d(0,0,0)`,
+        //pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
       };
 
       const opacityStyle = {
