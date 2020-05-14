@@ -23,16 +23,16 @@ const HomeHeading = styled.svg`
   left: 0;
   backface-visibility: hidden;
   perspective: 1000;
-  transform-origin: 42% 56%;
+  transform-origin: 42.01% 56.01%;
   z-index: 2;
   display: inline-table;
   will-change: transform;
   @media screen and (max-width: 1024px) {
-    transform-origin: 42% 53% !important;
+    transform-origin: 42.01% 53% !important;
   }
 
   @media screen and (max-width: 480px) {
-    transform-origin: 43% 38% !important;
+    transform-origin: 43.01% 38.01% !important;
   }
 
   rect {
@@ -167,8 +167,9 @@ const IndexPage = props => {
       const shouldBeStyle = {
         transform: `scale(${
           Math.abs(currPos.y) < 9 ? 1 : Math.abs(currPos.y) / scale
-        }) translate3d(0,0,0)`,
-        //pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
+        })`,
+        display: "table",
+        pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
       };
 
       const opacityStyle = {
