@@ -70,15 +70,49 @@ p {
   font-family: AvantGarde;
 }
 
-svg {
-  font-family: AvantGardeBold;
-  font-size: $mod_1 * $mod_1 * $mod_1 * $mod_1 * 1rem;
-  @include fluid-type(
-    $min_width,
-    $max_width,
-    $mod_1 * $mod_1 * $mod_1 * $min_font,
-    $mod_2 * $mod_2 * $mod_2 * $min_font
-  );
+#mattHero {
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform-origin: 44.9% 45%;
+  will-change: transform;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  @media screen and (max-width: 1024px) {
+    transform-origin: 42.01% 53% !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+#mattHeroMobile {
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform-origin: 44.9% 45%;
+  will-change: transform;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: none;
+  @media screen and (max-width: 1024px) {
+    transform-origin: 42.01% 40% !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+}
+
+.mask {
+  width: 50%;
+  height: 55vh;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 hr {

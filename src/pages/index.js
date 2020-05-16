@@ -10,63 +10,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import MattLogo from "../images/mattLogo.svg";
+import MattLogoMobile from "../images/mattLogoMobile.svg";
 
 library.add(faGithub, faLinkedin);
 
-const HomeHeading = styled.svg`
-  margin: 0;
-  color: rgba(255, 255, 255, 1);
-  height: 100vh;
-  width: 100vw;
+const MattContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const MattHero = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  backface-visibility: hidden;
-  perspective: 1000;
-  transform-origin: 42.01% 56.01%;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff341e;
   z-index: 2;
-  display: inline-table;
-  will-change: transform;
-  @media screen and (max-width: 1024px) {
-    transform-origin: 42.01% 53% !important;
-  }
-
-  @media screen and (max-width: 480px) {
-    transform-origin: 43.01% 38.01% !important;
-  }
-
-  rect {
-    -webkit-mask: url(#mask);
-    mask: url(#mask);
-    fill: #f00;
-  }
-
-  defs {
-    mask {
-      rect {
-        fill: white;
-      }
-      text {
-        transform: translateY(10%);
-        font-size: 8vw;
-
-        @media screen and (max-width: 480px) {
-          transform: translateY(0);
-        }
-
-        &:last-child {
-          @media screen and (max-width: 1024px) {
-            transform: translateY(12%);
-          }
-          @media screen and (max-width: 480px) {
-            transform: translateY(0);
-          }
-          transform: translateY(20%);
-        }
-      }
-    }
-  }
+  clip-path: url(#myClip);
 `;
+
 const HomeSubHomeSectionHeading = styled.section`
   width: 100vw;
   min-height: 100vh;
@@ -81,7 +48,7 @@ const HomeSubHomeSectionHeading = styled.section`
 
 const ColorChanger = styled.div`
   width: 100vw;
-  height: 1300px;
+  height: 133vh;
   top: 0;
   left: 0;
   background: linear-gradient(to bottom, #feffff 88%, #1ecbe1 100%);
@@ -167,8 +134,7 @@ const IndexPage = props => {
       const shouldBeStyle = {
         transform: `scale(${
           Math.abs(currPos.y) < 9 ? 1 : Math.abs(currPos.y) / scale
-        })`,
-        display: "table",
+        }) translateZ(0)`,
         pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
       };
 
@@ -228,30 +194,29 @@ const IndexPage = props => {
           </div>
         </MeSection>
       </HomeSubHomeSectionHeading>
-      <HomeHeading
-        preserveAspectRatio="xMinYMin meet"
-        style={{ ...scrollStyling }}
-      >
-        <defs>
-          <mask id="mask" x="0" y="0" width="100%" height="100%">
-            <rect x="0" y="0" width="100%" height="100%" fill="#fff"></rect>
-            <text x="50%" y="40%" textAnchor="middle">
-              Matt Maclennan
-            </text>
-            <text id="editText" x="50%" y="45%" textAnchor="middle">
-              Web Developer
-            </text>
-          </mask>
-        </defs>
-        <rect
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          fill="#E1341E"
-          id="mask"
-        ></rect>
-      </HomeHeading>
+
+      <MattContainer>
+        <MattHero></MattHero>
+        <MattLogo
+          viewBox="0 0 1920 1080"
+          preserveAspectRatio="xMidYMid slice"
+          id="mattHero"
+          style={{ ...scrollStyling }}
+        />
+        <MattLogoMobile
+          viewBox="20 0 375 812"
+          preserveAspectRatio="xMidYMid slice"
+          id="mattHeroMobile"
+          style={{ ...scrollStyling }}
+        />
+        <svg height="0" class="mask">
+          <defs>
+            <clipPath id="myClip" clipPathUnits="objectBoundingBox">
+              <rect x="50" y="50" width="100%" height="100%" fill="#272730" />
+            </clipPath>
+          </defs>
+        </svg>
+      </MattContainer>
     </Layout>
   );
 };
