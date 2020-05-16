@@ -37,7 +37,7 @@ const MattHero = styled.div`
 const HomeSubHomeSectionHeading = styled.section`
   width: 100vw;
   min-height: 100vh;
-  background-color: #1ecbe1;
+  background-color: #44afbb;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -51,7 +51,7 @@ const ColorChanger = styled.div`
   height: 133vh;
   top: 0;
   left: 0;
-  background: linear-gradient(to bottom, #feffff 88%, #1ecbe1 100%);
+  background: linear-gradient(to bottom, #ffffff 88%, #44afbb 100%);
 `;
 
 const ImageStamp = styled.div`
@@ -135,7 +135,7 @@ const IndexPage = props => {
         transform: `scale(${
           Math.abs(currPos.y) < 9 ? 1 : Math.abs(currPos.y) / scale
         }) translateZ(0)`,
-        pointerEvents: `${Math.abs(currPos.y) > 1000 ? "none" : "auto"}`,
+        pointerEvents: `${Math.abs(currPos.y) > 900 ? "none" : "auto"}`,
       };
 
       const opacityStyle = {
